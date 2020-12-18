@@ -1,9 +1,7 @@
 #include <algorithm>
 #include <fstream>
-#include <vector>
 #include <string>
 #include <iostream>
-#include <tuple>
 
 // first part of the challenge
 bool condition1(const std::string& pw, const char c, const uint32_t min, const uint32_t max)
@@ -53,14 +51,9 @@ uint32_t check_pw(std::string path)
     }
 
     return correct;
-
 }
-
-
 
 int main()
 {
-
-    std::cout << "Number of correct paswords: " << check_pw("../aoc/2/input") << std::endl;
-    
+    std::cout << "Number of correct paswords: " << check_pw("../aoc/2/input") << std::endl;  
 }
