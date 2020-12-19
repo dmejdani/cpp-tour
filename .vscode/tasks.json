@@ -7,9 +7,10 @@
 			"command": "/usr/bin/g++",
 			"args": [
 				"-g",
+				"-Wall",
 				"${file}",
 				"-o",
-				"${workspaceFolder}/builds/${fileBasenameNoExtension}",
+				"${workspaceFolder}/builds/${fileBasenameNoExtension}"
 			],
 			"options": {
 				"cwd": "/usr/bin"
@@ -23,11 +24,10 @@
 			},
 			"detail": "compiler: /usr/bin/g++"
 		},
-
 		{
 			"label": "echo",
 			"type": "shell",
-      		"command": "echo ${fileDirname}/${fileBasenameNoExtension}"
+			"command": "echo ${fileDirname}/${fileBasenameNoExtension}"
 		}
 	]
 }
