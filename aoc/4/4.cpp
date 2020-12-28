@@ -3,33 +3,17 @@
 #include <iostream>
 #include <vector>
 
-
-std::vector<Passport> parse_input(std::string path) 
-{
-    std::vector<Passport> passports;
-
-    std::ifstream input(path);
-    std::string line;
-
-    std::string text = "";
-    while (std::getline(input, line)) {
-        if (line != "") 
-            text += line + " ";
-        else {
-            passports.push_back(std::move(Passport(text)));
-            text = "";
-            return passports;
-        }
-    }
-}
-
-
 class Passport {
 
 public:
     Passport(std::string& text) 
         : birth_year{-1}, issue_year{-1}, expiration_year{-1} 
-        {fill_fields(text);}
+        {fill_fields(text);};
+    
+    bool is_valid() const {
+        return !( (birth_year == -1) || (issue_year == -1) || (expiration_year == -1) ||
+                   height.empty() || hair_color.empty() || eye_color.empty() || passport_id.empty());
+    }
 private:
     void fill_fields(std::string& text) {
         auto splitted = split(text, " ");
@@ -40,13 +24,13 @@ private:
     std::vector<std::string> split(std::string& nonsplitted, const char* delimiter) {
        std::vector<std::string> splitted;
         int32_t len = nonsplitted.find(delimiter);
-            while (len != std::string::npos) {
+            while (len != static_cast<int32_t>(std::string::npos)) {
                 splitted.push_back(nonsplitted.substr(0, len));
                 // Erase parsed part including the delimiter.
                 nonsplitted.erase(0, len + 1);
                 len = nonsplitted.find(" ");
             }
-        return std::move(splitted);
+        return splitted;
     }
 
     void parse_pairs(std::vector<std::string>& splitted) {
@@ -76,6 +60,35 @@ private:
     std::string country_id;
 };
 
+
+
+std::vector<Passport> parse_input(std::string path) 
+{
+    std::vector<Passport> passports;
+
+    std::ifstream input(path);
+    std::string line;
+
+    std::string text = "";
+    while (std::getline(input, line)) {
+        if (line != "") 
+            text += line + " ";
+        else {
+            passports.push_back(std::move(Passport(text)));
+            text = "";
+            break;
+        }
+    }
+    return passports;
+}
+
 int main() {
+    int32_t valid = 0;
     std::vector<Passport> ps = parse_input("../aoc/4/input");
+    for (auto& passport : ps) {
+        if (passport.is_valid())
+            ++valid;
+    }
+
+    std::cout << "Number of valid passports: " << valid << std::endl;
 }
